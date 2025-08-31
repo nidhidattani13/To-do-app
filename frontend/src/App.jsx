@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [showSignup, setShowSignup] = useState(true);
+
+  if (token) return <Dashboard />;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      {showSignup ? (
+        <div>
+          <Signup />
+          <p>
+            Already have an account?{' '}
+            <button onClick={() => setShowSignup(false)}>Login</button>
+          </p>
+        </div>
+      ) : (
+        <div>
+          <Login setToken={setToken} />
+          <p>
+            Don't have an account?{' '}
+            <button onClick={() => setShowSignup(true)}>Signup</button>
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
